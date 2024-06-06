@@ -1,3 +1,4 @@
+const hashService = require("../services/bcrypt-service");
 const userService = require("../services/user-service");
 const createError = require("../utils/create-error");
 
@@ -16,6 +17,7 @@ authController.register = async (req, res, next) => {
       });
     }
 
+    data.password = await hashService.hash(data.password);
     await userService.createUser(data);
     res.status(201).json({ message: "register suceess" });
   } catch (error) {

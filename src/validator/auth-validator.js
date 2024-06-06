@@ -20,3 +20,8 @@ exports.registerSchema = Joi.object({
     then: Joi.string().default(Joi.ref("emailOrMobile")),
   }),
 });
+
+exports.loginSchema = Joi.object({
+  emailOrMobile: Joi.string().email({ tlds: false }),
+  password: Joi.string().required(),
+});

@@ -9,3 +9,5 @@ exports.registorValidator = (req, res, next) => {
   req.input = value;
   next();
 };
+
+exports.loginValidator = (req, res, next) => {};
