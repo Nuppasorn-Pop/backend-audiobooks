@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  firstName    String    @map("first_name") @db.VarChar(50)
+  lastName     String    @map("last_name") @db.VarChar(50)
+  email        String?   @unique @db.VarChar(50)
+  mobile       String?   @unique @db.VarChar(10)
+  password     String
+  profileImage String?   @map("profile_image")
+  role         Role      @default(USER)
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt    DateTime? @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  audiobooks    Audiobook[]
+  favorites     Favorite[]
+  satisfactions Satisfaction[]
+}
+
+enum ApprovalType {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Audiobook {
+  id         Int          @id @default(autoincrement())
+  title      String       @db.VarChar(80)
+  author     String       @db.VarChar(50)
+  voiceActor String?      @map("voice_actor") @db.VarChar(50)
+  bookType   String?      @map("book_type") @db.VarChar(50)
+  bookImage  String?      @map("book_image")
+  audioFile  String
+  detail     String?      @db.Text
+  status     ApprovalType @default(PENDING)
+  createdAt  DateTime     @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt  DateTime?    @updatedAt @map("updated_at") @db.Timestamp(0)
+  deletedAt  DateTime?    @map("deleted_at") @db.Timestamp(0)
+  userId     Int          @map("user_id")
+
+  user          User           @relation(fields: [userId], references: [id])
+  favorites     Favorite[]
+  satisfactions Satisfaction[]
+}
+
+model Favorite {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamp(0)
+  userId      Int       @map("user_id")
+  audiobookId Int       @map("audiobook_id")
+
+  user      User      @relation(fields: [userId], references: [id])
+  audiobook Audiobook @relation(fields: [audiobookId], references: [id])
+}
+
+enum SatisfactionType {
+  LIKE
+  UNLIKE
+}
+
+model Satisfaction {
+  id          Int              @id @default(autoincrement())
+  type        SatisfactionType
+  createdAt   DateTime         @default(now()) @map("created_at") @db.Timestamp(0)
+  userId      Int              @map("user_id")
+  audiobookId Int              @map("audiobook_id")
+
+  user      User      @relation(fields: [userId], references: [id])
+  audiobook Audiobook @relation(fields: [audiobookId], references: [id])
+}
