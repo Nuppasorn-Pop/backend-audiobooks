@@ -22,6 +22,6 @@ exports.registerSchema = Joi.object({
 });
 
 exports.loginSchema = Joi.object({
-  emailOrMobile: Joi.string().email({ tlds: false }),
+  emailOrMobile: Joi.string().required(),
   password: Joi.string().required(),
 });

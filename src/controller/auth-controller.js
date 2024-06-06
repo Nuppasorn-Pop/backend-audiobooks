@@ -1,4 +1,5 @@
 const hashService = require("../services/bcrypt-service");
+const jwtService = require("../services/jwt-service");
 const userService = require("../services/user-service");
 const createError = require("../utils/create-error");
 
@@ -24,7 +25,36 @@ authController.register = async (req, res, next) => {
     console.log(error);
   }
 };
-authController.login = (req, res, next) => {};
+authController.login = async (req, res, next) => {
+  try {
+    const isExists = await userService.findUserByEmailOrMobile(
+      req.input.emailOrMobile
+    );
+    if (!isExists) {
+      createError({
+        message: "Email or Mobile is invalid",
+        status: 400,
+      });
+    }
+
+    const isMatch = await hashService.compare(
+      req.input.password,
+      isExists.password
+    );
+
+    if (isMatch) {
+      createError({
+        message: "Password is invalid",
+        status: 400,
+      });
+    }
+
+    jwtService.sign({ id: isExists.id });
+    res.status(200).json({ message: "Login success" });
+  } catch (error) {
+    console.log(error);
+  }
+};
 authController.getMe = (req, res, next) => {};
 
 module.exports = authController;
