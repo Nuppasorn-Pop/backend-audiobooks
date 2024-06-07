@@ -13,7 +13,7 @@ authController.register = async (req, res, next) => {
     if (isExists) {
       createError({
         message: "Email or Mobile already in use",
-        status: 400,
+        statusCode: 400,
         field: "emailOrMobile",
       });
     }
@@ -22,7 +22,7 @@ authController.register = async (req, res, next) => {
     await userService.createUser(data);
     res.status(201).json({ message: "register suceess" });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 authController.login = async (req, res, next) => {
@@ -33,7 +33,7 @@ authController.login = async (req, res, next) => {
     if (!isExists) {
       createError({
         message: "Email or Mobile is invalid",
-        status: 400,
+        statusCode: 400,
       });
     }
 
@@ -45,14 +45,14 @@ authController.login = async (req, res, next) => {
     if (isMatch) {
       createError({
         message: "Password is invalid",
-        status: 400,
+        statusCode: 400,
       });
     }
 
-    jwtService.sign({ id: isExists.id });
-    res.status(200).json({ message: "Login success" });
+    const accessToken = jwtService.sign({ id: isExists.id });
+    res.status(200).json({ accessToken });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 authController.getMe = (req, res, next) => {};
