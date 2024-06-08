@@ -9,5 +9,9 @@ userService.findUserByEmailOrMobile = (emailOrMobile) =>
       OR: [{ email: emailOrMobile }, { mobile: emailOrMobile }],
     },
   });
+userService.findUserById = (userId) =>
+  prisma.user.findFirst({
+    where: { id: userId },
+  });
 
 module.exports = userService;

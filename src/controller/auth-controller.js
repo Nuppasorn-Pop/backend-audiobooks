@@ -25,6 +25,7 @@ authController.register = async (req, res, next) => {
     next(error);
   }
 };
+
 authController.login = async (req, res, next) => {
   try {
     const isExists = await userService.findUserByEmailOrMobile(
@@ -42,7 +43,7 @@ authController.login = async (req, res, next) => {
       isExists.password
     );
 
-    if (isMatch) {
+    if (!isMatch) {
       createError({
         message: "Password is invalid",
         statusCode: 400,
@@ -55,6 +56,9 @@ authController.login = async (req, res, next) => {
     next(error);
   }
 };
-authController.getMe = (req, res, next) => {};
+
+authController.getMe = (req, res, next) => {
+  res.status(200).json({ user: req.user });
+};
 
 module.exports = authController;
