@@ -1,0 +1,41 @@
+--- create audiobook
+POST /audiobooks
+HEADER
+  Authorization Bearer access_token
+BODY {multipart/formdata}
+    title: string;
+    author: string;
+    voiceActor: string | null;
+    bookType: string | null;
+    bookImage: string | null;
+    audioFile: string;
+    detail: string | null;
+    ---------------
+    userId: number
+RESPONSE
+  201 message
+  400 message (bad reauest)
+  401 message (unauthorized)
+  500 message (Internal Server Error)
+
+---
+
+--- get all audiobooks
+GET /audiobooks
+HEADER
+  Authorization Bearer access_token
+RESPONSE
+  200 message
+  400 message
+  401 message (unauthorized)
+  500 message (Internal Server Error)
+
+-- delete audiobook
+DELETE /audiobooks/:audiobookId
+HEADER
+  Authorization Bearer access_token
+RESPONSE
+  200 message (delete successful)
+  400 message
+  401 message (unauthorized)
+  500 message (Internal Server Error)
