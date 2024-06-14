@@ -4,8 +4,8 @@ const storage = multer.diskStorage({
     cb(null, "public/files");
   },
   filename: (req, file, cb) => {
-    // console.log(file);
-    // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    console.log(file);
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
     const filename = `${new Date().getTime()}${Math.round(
       Math.random() * 100000
     )}.${file.mimetype.split("/")[1]}`;

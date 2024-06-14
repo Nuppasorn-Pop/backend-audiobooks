@@ -5,6 +5,7 @@ const upload = require("../middleware/upload");
 const audiobookRouter = express.Router();
 
 audiobookRouter.get("/", audiobookController.getAllAudiobook);
+
 audiobookRouter.post(
   "/",
   upload.fields([
@@ -14,7 +15,20 @@ audiobookRouter.post(
   createAudiobookValidator,
   audiobookController.createAudiobook
 );
-audiobookRouter.get("/:audiobookId", (req, res, next) => {});
-audiobookRouter.delete("/:audiobookId", (req, res, next) => {});
 
+audiobookRouter.get(
+  "/:audiobookId",
+  audiobookController.getOneAudiobookByAudiobookId
+);
+
+audiobookRouter.get("/:userId", audiobookController.getMyAudiobook);
+
+audiobookRouter.delete("/:audiobookId", audiobookController.deleteMyAudiobook);
+
+audiobookRouter.patch("/:audiobookId", audiobookController.approveAudiobook);
+
+audiobookRouter.delete(
+  "/:audiobookId/reject",
+  audiobookController.rejectAudiobook
+);
 module.exports = audiobookRouter;

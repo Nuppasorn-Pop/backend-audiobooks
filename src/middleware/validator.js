@@ -24,6 +24,7 @@ exports.loginValidator = (req, res, next) => {
 
 exports.createAudiobookValidator = (req, res, next) => {
   const { value, error } = createAudiobookSchema.validate(req.body);
+  console.log("---------------------------------------", req.files);
   if (error) {
     res.status(400).json({ message: error.details[0].message });
   }
@@ -32,6 +33,7 @@ exports.createAudiobookValidator = (req, res, next) => {
     createError({
       message: "Audio File is required",
       statusCode: 400,
+      field: "audioFile",
     });
   }
 
