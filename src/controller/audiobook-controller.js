@@ -1,4 +1,3 @@
-const { fields } = require("../middleware/upload");
 const audiobookService = require("../services/audiobook-service");
 const uploadService = require("../services/upload-service");
 const createError = require("../utils/create-error");
@@ -70,7 +69,7 @@ audiobookController.getAllAudiobook = async (req, res, next) => {
 
 audiobookController.getMyAudiobook = async (req, res, next) => {
   const data = await audiobookService.getMyAudiobookByUserId(req.user.id);
-  res.status(200).json({ data });
+  res.status(200).json(data);
 };
 
 audiobookController.getOneAudiobookByAudiobookId = async (req, res, next) => {
@@ -79,8 +78,6 @@ audiobookController.getOneAudiobookByAudiobookId = async (req, res, next) => {
   );
   res.status(200).json(data);
 };
-
-audiobookController.deleteMyAudiobook = async (req, res, next) => {};
 
 audiobookController.approveAudiobook = async (req, res, next) => {
   try {
@@ -118,7 +115,26 @@ audiobookController.rejectAudiobook = async (req, res, next) => {
       });
     }
 
-    await audiobookService.rejectStatusAudiobook(findAudiobook.id);
+    await audiobookService.deleteAudiobook(findAudiobook.id);
+    res.status(201);
+  } catch (error) {
+    next(error);
+  }
+};
+
+audiobookController.deleteMyAudiobook = async (req, res, next) => {
+  try {
+    const findAudiobook = await audiobookService.getOneAudiobookByAudiobookId(
+      +req.params.audiobookId
+    );
+    if (findAudiobook.userId !== req.user.id) {
+      createError({
+        message: "Can not delete other audiobook",
+        status: 400,
+      });
+    }
+
+    await audiobookService.deleteAudiobook(findAudiobook.id);
     res.status(201);
   } catch (error) {
     next(error);

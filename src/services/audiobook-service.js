@@ -14,6 +14,7 @@ audiobookService.getAllAudiobook = () =>
     },
   });
 audiobookService.create = (data) => prisma.audiobook.create({ data });
+
 audiobookService.findAudiobookByTitle = (title) =>
   prisma.audiobook.findFirst({
     where: { title: title },
@@ -46,7 +47,7 @@ audiobookService.acceptStatusAudiobook = (status, audiobookId) =>
 audiobookService.findAudiobookByAudiobookIdAndStatus = (audiobookId, status) =>
   prisma.audiobook.findFirst({ where: { id: audiobookId, status: status } });
 
-audiobookService.rejectStatusAudiobook = (audiobookId) =>
+audiobookService.deleteAudiobook = (audiobookId) =>
   prisma.audiobook.delete({ where: { id: audiobookId } });
 
 module.exports = audiobookService;

@@ -16,6 +16,7 @@ const authenticate = async (req, res, next) => {
     const payload = jwtService.verify(accessToken);
 
     const user = await userService.findUserById(payload.id);
+
     if (!user) {
       createError({
         message: "user was not found",

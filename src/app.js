@@ -5,12 +5,14 @@ const cors = require("cors");
 const errorMiddleware = require("./middleware/error");
 const audiobookRouter = require("./routes/audiobook-route");
 const authenticate = require("./middleware/authenticate");
+const favoriteRouter = require("./routes/favorite-route");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/audiobooks", authenticate, audiobookRouter);
+app.use("/favorite", authenticate, favoriteRouter);
 
 app.use(errorMiddleware);
 const port = process.env.PORT || 8000;

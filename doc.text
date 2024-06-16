@@ -51,3 +51,15 @@ RESPONSE
   400 message
   401 message (unauthorized)
   500 message (Internal Server Error)
+
+--- Satisfaction audiobook 
+POST /audiobooks/:audiobookId/satisfaction
+HEADER
+  Authorization Bearer access_token
+PARAMS
+  audiobookId
+RESPONSE
+  200 message
+  400 message
+  401 message (unauthorized)
+  500 message (Internal Server Error)

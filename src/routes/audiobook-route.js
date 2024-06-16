@@ -16,12 +16,12 @@ audiobookRouter.post(
   audiobookController.createAudiobook
 );
 
+audiobookRouter.get("/myShelf", audiobookController.getMyAudiobook);
+
 audiobookRouter.get(
   "/:audiobookId",
   audiobookController.getOneAudiobookByAudiobookId
 );
-
-audiobookRouter.get("/:userId", audiobookController.getMyAudiobook);
 
 audiobookRouter.delete("/:audiobookId", audiobookController.deleteMyAudiobook);
 
@@ -31,4 +31,5 @@ audiobookRouter.delete(
   "/:audiobookId/reject",
   audiobookController.rejectAudiobook
 );
+
 module.exports = audiobookRouter;
