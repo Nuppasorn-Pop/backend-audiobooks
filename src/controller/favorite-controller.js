@@ -39,7 +39,7 @@ favoriteController.unFavorite = async (req, res, next) => {
     }
 
     await favoriteService.delete(+req.params.favoriteId);
-    res.status(201);
+    res.status(204).json({});
   } catch (error) {
     next(error);
   }
@@ -47,6 +47,18 @@ favoriteController.unFavorite = async (req, res, next) => {
 favoriteController.getMyAllFavorite = async (req, res, next) => {
   try {
     const data = await favoriteService.getAllFavoriteByUserId(req.user.id);
+    res.status(200).json(data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+favoriteController.getFavByUserIdAndAudiobookId = async (req, res, next) => {
+  try {
+    const data = await favoriteService.findFavoriteByUserIdAndAudiobookId(
+      req.user.id,
+      +req.params.audiobookId
+    );
     res.status(200).json(data);
   } catch (error) {
     next(error);

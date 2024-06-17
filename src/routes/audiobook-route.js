@@ -2,6 +2,7 @@ const express = require("express");
 const audiobookController = require("../controller/audiobook-controller");
 const { createAudiobookValidator } = require("../middleware/validator");
 const upload = require("../middleware/upload");
+const adminAuthenticate = require("../middleware/admin-authenticate");
 const audiobookRouter = express.Router();
 
 audiobookRouter.get("/", audiobookController.getAllAudiobook);
@@ -23,9 +24,17 @@ audiobookRouter.get(
   audiobookController.getOneAudiobookByAudiobookId
 );
 
-audiobookRouter.delete("/:audiobookId", audiobookController.deleteMyAudiobook);
+audiobookRouter.delete(
+  "/:audiobookId",
+  adminAuthenticate,
+  audiobookController.deleteMyAudiobook
+);
 
-audiobookRouter.patch("/:audiobookId", audiobookController.approveAudiobook);
+audiobookRouter.patch(
+  "/:audiobookId",
+  adminAuthenticate,
+  audiobookController.approveAudiobook
+);
 
 audiobookRouter.delete(
   "/:audiobookId/reject",
