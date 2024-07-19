@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
-const authRouter = require("./routes/auth-route");
 const cors = require("cors");
+const authRouter = require("./routes/auth-route");
 const errorMiddleware = require("./middleware/error");
 const audiobookRouter = require("./routes/audiobook-route");
 const authenticate = require("./middleware/authenticate");
@@ -13,7 +13,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://fontend-audiobooks.onrender.com",
+    origin: "*",
   })
 );
 
