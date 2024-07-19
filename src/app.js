@@ -14,7 +14,7 @@ app.use(morgan("dev"));
 
 app.use(
   cors({
-    origin: "https://fontend-audiobooks.onrender.com/",
+    origin: "https://fontend-audiobooks.onrender.com",
     headers: ["Content-Type"],
     credentials: true,
   })
