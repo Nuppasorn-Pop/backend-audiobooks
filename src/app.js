@@ -13,7 +13,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://fontend-audiobooks.onrender.com",
+    origin: "https://fontend-audiobooks.onrender.com/",
   })
 );
 
