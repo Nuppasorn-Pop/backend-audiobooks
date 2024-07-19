@@ -2,6 +2,8 @@ const hashService = require("../services/bcrypt-service");
 const jwtService = require("../services/jwt-service");
 const userService = require("../services/user-service");
 const createError = require("../utils/create-error");
+const transporter = require("../utils/nodemailer");
+require("dotenv").config();
 
 const authController = {};
 authController.register = async (req, res, next) => {
@@ -19,7 +21,26 @@ authController.register = async (req, res, next) => {
     }
 
     data.password = await hashService.hash(data.password);
+
     await userService.createUser(data);
+    const email = data.email;
+    const mailOptions = {
+      from: process.env.NODE_MAILER_USER,
+      to: email,
+      subject: "Hello from sender",
+      html: "<b>Please do not reply this mail</b>",
+    };
+
+    console.log(mailOptions);
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.error("Error occurred. " + err.message);
+        return;
+      }
+
+      console.log("Message sent: %s", info.messageId);
+    });
+
     res.status(201).json({ message: "register suceess" });
   } catch (error) {
     next(error);
