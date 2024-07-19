@@ -9,15 +9,11 @@ const morgan = require("morgan");
 const favoriteRouter = require("./routes/favorite-route");
 const app = express();
 
-// app.use(cors());
-
 app.use(
   cors({
-    origin: "*",
+    origin: "https://fontend-audiobooks.onrender.com",
   })
 );
-
-// app.options("*", cors());
 
 app.use(morgan("dev"));
 app.use(express.json());
