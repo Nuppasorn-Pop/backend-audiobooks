@@ -13,11 +13,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://fontend-audiobooks.onrender.com/",
+    origin: "https://fontend-audiobooks.onrender.com",
   })
 );
 
-app.options("*", cors());
+// app.options("*", cors());
 
 app.use(morgan("dev"));
 app.use(express.json());
